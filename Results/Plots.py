@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def wavelength_to_rgb(wavelength_nm, gamma=0.8):
     if wavelength_nm < 380 or wavelength_nm > 770:
-        return (0, 0, 0)
+        return (1, 1, 1) #biały dla niewidzialnych długości fal
 
     w = wavelength_nm
     if w < 440:
@@ -31,7 +31,7 @@ def wavelength_to_rgb(wavelength_nm, gamma=0.8):
 
 
 def main():
-    Wavelength = 1550e-9
+    Wavelength = 1310e-9
 
     E = compute_field(wavelength=Wavelength)
     I = np.abs(E)**2
