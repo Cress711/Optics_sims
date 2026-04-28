@@ -32,18 +32,18 @@ def wavelength_to_rgb(wavelength_nm, gamma=0.8):
 
 
 def main():
-    Wavelength = 420 #nm
+    Wavelength = 1550 #nm
     Slit_width = 50 #um
-    Grid_size = 1000
+    Grid_size = 2000
     Intensity_plot = False
     Amplitude_plot = False
-
+    Screen_size = 0.1 #m
 
     ###Tu zmieniamy co chcemy rysować###
     ###Zakomentować czego nie chcemy###
 
-    #E = compute_field_I(wavelength=Wavelength, grid_size=1000) #interferencja
-    E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size) #dyfrakcja
+    E = compute_field_I(wavelength=Wavelength*1e-9, grid_size=Grid_size, screen_size=Screen_size); Title = 'Two-source interference pattern'#interferencja
+    #E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size, screen_size=Screen_size); Title = 'Single-slit diffraction' #dyfrakcja
 
     Intensity_plot = True
     #Amplitude_plot = True
@@ -63,9 +63,12 @@ def main():
         for i in range(3):
             image[..., i] = I_norm * rgb[i]
 
-        plt.imshow(image)
-        plt.title(f"{Wavelength:.0f} nm")
-        plt.axis("off")
+        plt.imshow(image, extent=(-Screen_size, Screen_size, -Screen_size, Screen_size))
+        plt.title(f"{Title}\n {Wavelength:.0f} nm")
+        plt.locator_params(axis="x", nbins=5)
+        plt.locator_params(axis="y", nbins=5)
+        plt.xlabel(f"[m]")
+        plt.ylabel(f"[m]")
         plt.show()
     elif Amplitude_plot:
         #E = E.real
@@ -79,9 +82,12 @@ def main():
         for i in range(3):
             image[..., i] = E_norm * rgb[i]
 
-        plt.imshow(image)
-        plt.title(f"{Wavelength:.0f} nm")
-        plt.axis("off")
+        plt.imshow(image, extent=(-Screen_size, Screen_size, -Screen_size, Screen_size))
+        plt.title(f"{Title}\n {Wavelength:.0f} nm")
+        plt.locator_params(axis="x", nbins=5)
+        plt.locator_params(axis="y", nbins=5)
+        plt.xlabel(f"[m]")
+        plt.ylabel(f"[m]")
         plt.show()
 
 if __name__ == "__main__":
