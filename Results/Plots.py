@@ -32,18 +32,19 @@ def wavelength_to_rgb(wavelength_nm, gamma=0.8):
 
 
 def main():
-    Wavelength = 1550 #nm
+    Wavelength = 535 #nm
     Slit_width = 50 #um
-    Grid_size = 2000
+    Screen_size = 0.01 #m
+    Grid_size = 500
+
     Intensity_plot = False
     Amplitude_plot = False
-    Screen_size = 0.1 #m
-
+    
     ###Tu zmieniamy co chcemy rysować###
     ###Zakomentować czego nie chcemy###
 
-    E = compute_field_I(wavelength=Wavelength*1e-9, grid_size=Grid_size, screen_size=Screen_size); Title = 'Two-source interference pattern'#interferencja
-    #E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size, screen_size=Screen_size); Title = 'Single-slit diffraction' #dyfrakcja
+    #E = compute_field_I(wavelength=Wavelength*1e-9, grid_size=Grid_size, screen_size=Screen_size); Title = 'Two-source interference pattern'#interferencja
+    E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size, screen_size=Screen_size); Title = 'Single-slit diffraction' #dyfrakcja
 
     Intensity_plot = True
     #Amplitude_plot = True

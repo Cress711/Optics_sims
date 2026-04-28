@@ -5,7 +5,7 @@ def compute_field_D(
     slit_width=50e-6,
     screen_distance=0.1,
     grid_size=2000,
-    screen_size=0.01,
+    screen_size=0.005,
     aperture_points=100
 ):
     k = 2 * np.pi / wavelength
