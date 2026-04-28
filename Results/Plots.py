@@ -1,4 +1,4 @@
-from Diffraction.OneSlithDiff import compute_field_D
+from Diffraction.OneSlitDiff import compute_field_D
 from Intereference.interference_2D import compute_field_I
 import numpy as np
 import matplotlib.pyplot as plt
