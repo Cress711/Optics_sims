@@ -1,4 +1,5 @@
-from Diffraction.field_sim import compute_field
+from Diffraction.OneSlithDiff import compute_field_D
+from Intereference.interference_2D import compute_field_I
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -31,25 +32,57 @@ def wavelength_to_rgb(wavelength_nm, gamma=0.8):
 
 
 def main():
-    Wavelength = 1310e-9
+    Wavelength = 420 #nm
+    Slit_width = 50 #um
+    Grid_size = 1000
+    Intensity_plot = False
+    Amplitude_plot = False
 
-    E = compute_field(wavelength=Wavelength)
-    I = np.abs(E)**2
 
-    #normalizacja jasności
-    I_norm = I / I.max()
+    ###Tu zmieniamy co chcemy rysować###
+    ###Zakomentować czego nie chcemy###
 
-    #kolor z długości fali
-    rgb = wavelength_to_rgb(Wavelength * 1e9)
+    #E = compute_field_I(wavelength=Wavelength, grid_size=1000) #interferencja
+    E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size) #dyfrakcja
 
-    image = np.zeros(I.shape + (3,))
-    for i in range(3):
-        image[..., i] = I_norm * rgb[i]
+    Intensity_plot = True
+    #Amplitude_plot = True
 
-    plt.imshow(image)
-    plt.title(f"Dyfrakcja – {Wavelength*1e9:.0f} nm")
-    plt.axis("off")
-    plt.show()
+    #####################################
+
+    if Intensity_plot:
+        I = np.abs(E)**2
+        #normalizacja jasności
+        I_norm = I/ I.max()
+
+        #kolor z długości fali
+        rgb = wavelength_to_rgb(Wavelength)
+
+        #tworzenie obrazu RGB
+        image = np.zeros(I.shape + (3,))
+        for i in range(3):
+            image[..., i] = I_norm * rgb[i]
+
+        plt.imshow(image)
+        plt.title(f"{Wavelength:.0f} nm")
+        plt.axis("off")
+        plt.show()
+    elif Amplitude_plot:
+        #E = E.real
+        E = np.abs(E)
+        E_norm = E/ E.max()
+        #kolor z długości fali
+        rgb = wavelength_to_rgb(Wavelength)
+
+        #tworzenie obrazu RGB
+        image = np.zeros(E.shape + (3,))
+        for i in range(3):
+            image[..., i] = E_norm * rgb[i]
+
+        plt.imshow(image)
+        plt.title(f"{Wavelength:.0f} nm")
+        plt.axis("off")
+        plt.show()
 
 if __name__ == "__main__":
     main()

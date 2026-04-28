@@ -1,10 +1,10 @@
 import numpy as np
 
-def compute_field(
+def compute_field_D(
     wavelength,
     slit_width=50e-6,
     screen_distance=0.1,
-    grid_size=200,
+    grid_size=2000,
     screen_size=0.01,
     aperture_points=100
 ):
@@ -20,14 +20,14 @@ def compute_field(
     #zespolona tablica
     E = np.zeros((grid_size, grid_size), dtype=complex)
 
-    dx = slit_width / aperture_points  # element całki
+    dx = slit_width / aperture_points  #element całki
 
     #dla każdego elementu xs liczymy całkę
     for x_s in xs:
         #odległość punktu na szczelinie od punktu na ekranie
         r = np.sqrt((X - x_s)**2 + Y**2 + screen_distance**2)
 
-        #dodajemy policzony element pola do tablicy E
+        #dodajemy wpływaktualnie liczonego źródła do tablicy E
         E += np.exp(1j * k * r) / r * dx
 
     return E
