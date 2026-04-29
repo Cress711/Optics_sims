@@ -1,5 +1,5 @@
-from Diffraction.OneSlitDiff import compute_field_D
-from Intereference.interference_2D import compute_field_I
+from Single_slit_diff.single_slit_diff import compute_field_D
+from Intereference_2D.interference_2D import compute_field_I
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -39,19 +39,40 @@ def main():
 
     Intensity_plot = False
     Amplitude_plot = False
+
+    #White_light = False
+    White_light = True
     
     ###Tu zmieniamy co chcemy rysować###
     ###Zakomentować czego nie chcemy###
 
     #E = compute_field_I(wavelength=Wavelength*1e-9, grid_size=Grid_size, screen_size=Screen_size); Title = 'Two-source interference pattern'#interferencja
     E = compute_field_D(wavelength=Wavelength*1e-9, slit_width=Slit_width*1e-6, grid_size=Grid_size, screen_size=Screen_size); Title = 'Single-slit diffraction' #dyfrakcja
-
+    I = np.abs(E)**2
     Intensity_plot = True
     #Amplitude_plot = True
 
     #####################################
 
-    if Intensity_plot:
+    if Intensity_plot & White_light:
+        image = np.zeros(I.shape + (3,))
+        wavelengths = np.linspace(380e-9, 770e-9, 30)
+        for lambda_ in wavelengths:
+            E = compute_field_D(wavelength=lambda_, grid_size=Grid_size, screen_size=Screen_size)
+            I = np.abs(E)**2
+            I_norm = I / I.max()
+            rgb = wavelength_to_rgb(lambda_ * 1e9)
+            for i in range(3):
+                image[..., i] += I_norm * rgb[i] 
+
+        plt.imshow(image, extent=(-Screen_size, Screen_size, -Screen_size, Screen_size))
+        plt.title(f"{Title}\n White light")
+        plt.locator_params(axis="x", nbins=5)
+        plt.locator_params(axis="y", nbins=5)
+        plt.xlabel(f"[m]")
+        plt.ylabel(f"[m]")
+        plt.show()
+    elif Intensity_plot:
         I = np.abs(E)**2
         #normalizacja jasności
         I_norm = I/ I.max()
